@@ -54,6 +54,7 @@
              document.getElementById('id_devices').innerHTML=options;
          }
          for (var j = 0; j < url_device.length; j++) {
+           // console.log(url_device[j]);
            request_data.open('GET', url_device[j], false);
            request_data.setRequestHeader('Accept', 'application/json')
            request_data.setRequestHeader('Content-type', 'application/json')
@@ -61,14 +62,17 @@
            request_data.onload = function () { //function pour les data des devices
            var valu_d = JSON.parse(this.response);
              if (request_data.status == 200) {
-                  for (var variable in valu_d[j].value) {
-                    var myVal = variable;
-                    var opt = document.createElement("option");
-                    opt.value= myVal;
-                    opt.innerHTML = myVal;
-                    document.getElementById('id_conditions').appendChild(opt);
-                  }
-                  // break; //Ce break là, faut penser à l'enlever
+               if (valu_d[j] !== undefined) {
+                 console.log(valu_d[j].value);
+                    for (var variable in valu_d[j].value) {
+                      var myVal = variable;
+                      var opt = document.createElement("option");
+                      opt.value= myVal;
+                      opt.innerHTML = myVal;
+                      document.getElementById('id_conditions').appendChild(opt);
+                    }
+                    // break; //Ce break là, faut penser à l'enlever
+               }
              }else {
                console.log("Ce device n'a envoyé aucune donnée pour l'instant. ");
              }
